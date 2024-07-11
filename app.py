@@ -41,9 +41,8 @@ def dosomething(symptom):
     return(dt.predict(user_input_label))
 
 
-options = st.multiselect(
-    "What are the symptoms you are facing?",list(dictionary.keys())
-)
+
+
 
 #print(dosomething(['headache','muscle_weakness','puffy_face_and_eyes','mild_fever','skin_rash']))
 #prediction = []
@@ -53,10 +52,32 @@ options = st.multiselect(
 #print(prediction)
 
 
-prediction = []
-for i in range(1):
-     pred = dosomething(options)
-     prediction.append(pred)
 
-st.text(prediction[0][0])
+with st.form("my_form"):
+   def submit():
+    prediction = []
+    for i in range(1):
+        pred = dosomething(options)
+        prediction.append(pred)
+
+    return prediction[0][0]
+   st.write("Inside the form")
+   options = st.multiselect(
+    "What are the symptoms you are facing?",list(dictionary.keys())
+    )
+
+
+   # Every form must have a submit button.
+   submitted = st.form_submit_button("Submit")
+   if submitted:
+       st.write("You're facing with", submit())
+
+
+
+
+
+
+
+
+
 
