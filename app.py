@@ -13,7 +13,7 @@ st.divider()
 
 
 
-data = pd.read_csv("/workspaces/disease_prediction/Training.csv")
+data = pd.read_csv("disease_prediction/Training.csv")
 df = pd.DataFrame(data)
 cols = df.columns
 cols = cols[:-1]
