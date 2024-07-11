@@ -61,7 +61,6 @@ with st.form("my_form"):
         prediction.append(pred)
 
     return prediction[0][0]
-   st.write("Inside the form")
    options = st.multiselect(
     "What are the symptoms you are facing?",list(dictionary.keys())
     )
