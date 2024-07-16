@@ -3,6 +3,11 @@ from sklearn.model_selection import train_test_split
 import csv,numpy as np,pandas as pd
 import os
 import streamlit as st
+from dotenv import load_dotenv
+import google.generativeai as genai
+
+
+load_dotenv()
 
 
 st.title("Disease_Prediction");
@@ -51,6 +56,14 @@ def dosomething(symptom):
 #     prediction.append(pred)
 #print(prediction)
 
+st.subheader("Who's this test for?")
+test = st.radio(
+    "",
+    ["Myself", "***Friend***", "***Family***"],
+    index=None,
+)
+
+st.write("You selected:", test)
 
 
 with st.form("my_form"):
@@ -73,8 +86,16 @@ with st.form("my_form"):
 
 
 
+#api_key = os.getenv('API_KEY')
 
 
+GOOGLE_API_KEY=os.getenv('API_KEY')
+
+genai.configure(api_key=GOOGLE_API_KEY)
+sample_file = genai.upload_file(path="/workspaces/disease_prediction/images/Screenshot 2024-07-16 193920.png",
+                            display_name="electronic medical record")
+
+print(f"Uploaded file '{sample_file.display_name}' as: {sample_file.uri}")
 
 
 
