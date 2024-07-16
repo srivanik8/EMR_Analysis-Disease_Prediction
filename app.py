@@ -85,6 +85,13 @@ with st.form("my_form"):
        st.write("You're facing with", submit())
 
 
+GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
+if not GOOGLE_API_KEY:
+    st.error("GOOGLE_API_KEY not found in environment variables.")
+    st.stop()
+
+genai.configure(api_key=GOOGLE_API_KEY)
+
 
 
 
@@ -117,3 +124,5 @@ if uploaded_file is not None:
 
     # Clean up the temporary file
     os.remove("temp_image.png")
+
+
