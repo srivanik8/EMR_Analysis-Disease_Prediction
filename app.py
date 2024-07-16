@@ -65,7 +65,7 @@ test = st.radio(
 
 st.write("You selected:", test)
 
-
+st.subheader("disease prediction based on symptoms")
 with st.form("my_form"):
    def submit():
     prediction = []
@@ -86,30 +86,9 @@ with st.form("my_form"):
 
 
 
-#api_key = os.getenv('API_KEY')
 
 
-GOOGLE_API_KEY=os.getenv('API_KEY')
-
-genai.configure(api_key=GOOGLE_API_KEY)
-sample_file = genai.upload_file(path="/workspaces/disease_prediction/images/Screenshot 2024-07-16 193920.png",
-                            display_name="electronic medical record")
-
-print(f"Uploaded file '{sample_file.display_name}' as: {sample_file.uri}")
-
-
-file = genai.get_file(name=sample_file.name)
-print(f"Retrieved file '{file.display_name}' as: {sample_file.uri}")
-
-# Choose a Gemini API model.
-model = genai.GenerativeModel(model_name="gemini-1.5-pro-latest")
-
-# Prompt the model with text and the previously uploaded image.
-response = model.generate_content([sample_file, "analyze the given EMR and then detect with the highest probability of that 1 disease she might be facing wth given her conditions"])
-
-print(response.text)
-
-st.title("EMR Analysis with Google Gemini")
+st.subheader("EMR Analysis")
 uploaded_file = st.file_uploader("Choose an EMR image file", type=["png", "jpg", "jpeg"])
 
 if uploaded_file is not None:
@@ -128,7 +107,7 @@ if uploaded_file is not None:
     model = genai.GenerativeModel(model_name="gemini-1.5-pro-latest")
 
     # Prompt the model
-    prompt = "Analyze the given EMR and then detect with the highest probability of that 1 disease she might be facing with given her conditions"
+    prompt = "Analyze the given EMR and then detect with the highest probability of that 1 disease she might be facing with given her conditions also don't mention that you are an ai"
     
     if st.button("Analyze EMR"):
         with st.spinner("Analyzing..."):
