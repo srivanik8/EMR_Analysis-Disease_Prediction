@@ -98,6 +98,43 @@ sample_file = genai.upload_file(path="/workspaces/disease_prediction/images/Scre
 print(f"Uploaded file '{sample_file.display_name}' as: {sample_file.uri}")
 
 
+file = genai.get_file(name=sample_file.name)
+print(f"Retrieved file '{file.display_name}' as: {sample_file.uri}")
 
+# Choose a Gemini API model.
+model = genai.GenerativeModel(model_name="gemini-1.5-pro-latest")
 
+# Prompt the model with text and the previously uploaded image.
+response = model.generate_content([sample_file, "analyze the given EMR and then detect with the highest probability of that 1 disease she might be facing wth given her conditions"])
 
+print(response.text)
+
+st.title("EMR Analysis with Google Gemini")
+uploaded_file = st.file_uploader("Choose an EMR image file", type=["png", "jpg", "jpeg"])
+
+if uploaded_file is not None:
+    # Display the uploaded image
+    st.image(uploaded_file, caption="Uploaded EMR", use_column_width=True)
+
+    # Save the uploaded file temporarily
+    with open("temp_image.png", "wb") as f:
+        f.write(uploaded_file.getbuffer())
+
+    # Upload the file to Google AI
+    sample_file = genai.upload_file(path="temp_image.png", display_name="electronic medical record")
+    st.write(f"Uploaded file '{sample_file.display_name}' as: {sample_file.uri}")
+
+    # Choose a Gemini API model
+    model = genai.GenerativeModel(model_name="gemini-1.5-pro-latest")
+
+    # Prompt the model
+    prompt = "Analyze the given EMR and then detect with the highest probability of that 1 disease she might be facing with given her conditions"
+    
+    if st.button("Analyze EMR"):
+        with st.spinner("Analyzing..."):
+            response = model.generate_content([sample_file, prompt])
+            st.write("Analysis Result:")
+            st.write(response.text)
+
+    # Clean up the temporary file
+    os.remove("temp_image.png")
